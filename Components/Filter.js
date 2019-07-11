@@ -9,7 +9,9 @@ export class Filter extends Component {
 
     render() {
         const selectedStyle = {
-            textDecoration: "underline"
+            textDecoration: "underline",
+            fontSize: "21px",
+            backgroundColor: "sandybrown"
         }
         const {filterText} = this.props;
         return (
