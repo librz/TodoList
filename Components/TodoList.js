@@ -33,7 +33,8 @@ export class TodoList extends Component {
             const newEle = new TodoObj(curTodos.length, curState.curInput, false);
             return {
                 todos: [...curTodos, newEle], 
-                curInput: ""
+                curInput: "",
+                filterText: FilterTypes.ALL
             }
         })
     }
