@@ -8,7 +8,7 @@ export class AddTodo extends Component {
     handleAdd = (e) => {
         if (this.props.curInput === "")
             return;
-        if (e.keyCode && e.keyCode !== 13)//keyCode 13是回车
+        if (e.keyCode && e.keyCode !== 13)//keyCode 13 代表回车键
             return
         this.props.onAdd()
     }
