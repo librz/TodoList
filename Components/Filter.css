@@ -1,0 +1,14 @@
+.Filter button {
+    font-size: 19px;
+    line-height: 35px;
+    background-color: lightgreen;
+    width: 150px;
+    border: 1px solid black;
+    outline: none;
+    border-radius: 3px;
+    margin: 20px;
+}
+
+.Filter button:nth-child(1) {
+    margin-left: 0;
+}
