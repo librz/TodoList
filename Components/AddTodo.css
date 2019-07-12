@@ -9,7 +9,7 @@
 .AddTodo button {
     font-size: 19px;
     line-height: 35px;
-    background-color: brown;
+    background-color: lightcoral;
     width: 150px;
     outline: none;
     border-radius: 3px;
@@ -18,5 +18,5 @@
 .AddTodo button:hover {
     font-size: 20px;
     background-color: crimson;
-    box-shadow: 0 0 3px red;
+    box-shadow: 0 0 3px silver;
 }

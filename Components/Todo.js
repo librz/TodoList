@@ -14,21 +14,40 @@ export class TodoObj {
 }
 
 export class Todo extends Component {
+
     static defaultProps = {
         value: {}
     }
 
     handleClick = (e) => {
-        this.props.toggle(parseInt(e.target.id))
+        e.stopPropagation();
+        this.props.toggle(this.props.value.id)
+    }
+
+    handleEdit = (e) => {
+        e.stopPropagation();
+        this.props.onEdit(this.props.value)
+    }
+
+    handleDelete = (e) => {
+        e.stopPropagation();
+        this.props.onDelete(parseInt(this.props.value.id))
     }
 
     render() {
+        console.log('this.props.value: ', this.props.value)
         const {value} = this.props;
         const style = value.isCompleted ? { textDecorationLine:  "line-through"} : {};
         return (
-            <p style={style} id={value.id} onClick={this.handleClick} className="Todo">
-              {value.content} 
-            </p>
+            <div className="Todo">
+              <div className="Content" style={style} 
+                onClick={this.handleClick} 
+                >
+                {value.content} 
+              </div>
+              <button onClick={this.handleEdit}>编辑</button>
+              <div className="Delete" onClick={this.handleDelete}>X</div>
+            </div>
         )
     }
 }
