@@ -31,7 +31,7 @@ export class Editor extends Component {
         return (
             <div className="ModalContainer">
                 <div className="Modal">
-                    <p onClick={this.handleClose}>X</p>
+                    <p><span onClick={this.handleClose}>X</span></p>
                     <input value={this.state.content} onChange={this.handleChange} onKeyUp={this.handleKeyUp}  />
                     <button onClick={this.handleConfirm}>确定</button>
                 </div>

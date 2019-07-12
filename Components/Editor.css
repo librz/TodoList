@@ -51,16 +51,18 @@
 }
 
 .Modal p {
-    width: 100%;
-    font-size: 30px;
-    line-height: 40px;
-    padding: 0;
-    margin: 0;
-    padding-right: 10px;
+    width: 100%; 
     text-align: right;
 }
 
-.Modal p:hover {
+.Modal p span {
+    font-size: 30px;
+    line-height: 40px;
+    margin-right: 5px;
+    padding: 0 5px;
+}
+
+.Modal p span:hover {
     color: brown;
     font-size: 35px;
 }
