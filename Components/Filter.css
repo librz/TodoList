@@ -2,11 +2,11 @@
     font-size: 19px;
     line-height: 35px;
     background-color: lightgreen;
-    width: 30%;
+    width: 27%;
     border: 1px solid black;
     outline: none;
     border-radius: 3px;
-    margin: 20px;
+    margin: 20px 10px;
 }
 
 .Filter button:nth-child(1) {
