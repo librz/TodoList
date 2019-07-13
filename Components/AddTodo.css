@@ -1,5 +1,5 @@
 .AddTodo input{
-    width: 60%;
+    max-width: 500px;
     margin: 10px 40px 10px 0;
     padding: 5px 10px;
     font-size: 18px;
@@ -10,7 +10,7 @@
     font-size: 19px;
     line-height: 35px;
     background-color: lightcoral;
-    width: 20%;
+    max-width: 150px;
     outline: none;
     border-radius: 3px;
 }
