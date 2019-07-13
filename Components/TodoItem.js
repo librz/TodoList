@@ -41,7 +41,7 @@ export class TodoItem extends Component {
   render() {
     const { value } = this.props;
     const style = value.isCompleted
-      ? { textDecorationLine: "line-through" }
+      ? { textDecorationLine: "line-through", color: "grey" }
       : {};
     return (
       <div className="TodoItem">
