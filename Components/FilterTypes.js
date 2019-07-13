@@ -1,7 +1,7 @@
 export const FilterTypes = {
-    ALL: "all",
-    INCOMPLETED: "incompleted",
-    COMPLETED:"completed"
-}
+  ALL: "all",
+  INCOMPLETED: "incompleted",
+  COMPLETED: "completed"
+};
 
-export default FilterTypes
+export default FilterTypes;

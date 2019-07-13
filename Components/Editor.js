@@ -1,43 +1,49 @@
-import React, { Component } from 'react'
-import './Editor.css'
+import React, { Component } from "react";
+import "./Editor.css";
 
 export class Editor extends Component {
-    state = {
-        content: this.props.todoObj.content
-    }
+  //Editor has 2 actions that needs to notify parent
+  //Close, Confirm
+  state = {
+    content: this.props.initialContent
+  };
 
-    handleConfirm = () => {
-        //send a signal to parent component: <Todos />
-        this.props.onUpdate(Object.assign(this.props.todoObj, {content: this.state.content}))
-    }
+  updateContent = e => {
+    this.setState({
+      content: e.target.value
+    });
+  };
 
-    handleClose = () => {
-        //send a signal to parent component: <Todos />
-        this.props.onClose();
-    }
+  handleConfirm = () => {
+    this.props.onUpdate(this.state.content);
+  };
 
-    handleChange = (e) => {
-        this.setState({
-            content: e.target.value
-        })
-    }
+  handleKeyUp = e => {
+    if (e.keyCode !== 13) return;
+    else this.handleConfirm();
+  };
 
-    handleKeyUp = (e) => {
-        if (e.keyCode !== 13) return
-        else this.handleConfirm()
-    }
+  handleClose = () => {
+    this.props.onClose();
+  };
 
-    render() {
-        return (
-            <div className="ModalContainer">
-                <div className="Modal">
-                    <p><span onClick={this.handleClose}>X</span></p>
-                    <input value={this.state.content} onChange={this.handleChange} onKeyUp={this.handleKeyUp}  />
-                    <button onClick={this.handleConfirm}>确定</button>
-                </div>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className="ModalContainer">
+        <div className="Modal">
+          <p>
+            <span onClick={this.handleClose}>X</span>
+          </p>
+          <input
+            value={this.state.content}
+            onChange={this.updateContent}
+            onKeyUp={this.handleKeyUp}
+          />
+          <button onClick={this.handleConfirm}>确定</button>
+        </div>
+      </div>
+    );
+  }
 }
 
-export default Editor
+export default Editor;
