@@ -2,7 +2,7 @@
     font-size: 19px;
     line-height: 35px;
     background-color: lightgreen;
-    width: 27%;
+    max-width: 150px;
     border: 1px solid black;
     outline: none;
     border-radius: 3px;
