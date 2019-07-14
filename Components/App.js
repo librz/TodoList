@@ -82,12 +82,6 @@ export class App extends Component {
     }
   };
 
-  clearTodoToEdit = () => {
-    this.setState({
-      todoToEdit: null
-    });
-  };
-
   render() {
     return (
       <div className="App">
@@ -104,7 +98,7 @@ export class App extends Component {
           <Editor
             initialContent={this.getCurTodo().content}
             onUpdate={this.updateTodoToEdit}
-            onClose={this.clearTodoToEdit}
+            onClose={this.setState.bind(this, {todoToEdit: null})}
           />
         ) : (
           <div />
