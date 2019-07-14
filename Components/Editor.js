@@ -15,6 +15,8 @@ export class Editor extends Component {
   };
 
   handleConfirm = () => {
+    if (this.state.content === this.props.initialContent)
+      this.props.onClose()
     this.props.onUpdate(this.state.content);
   };
 
