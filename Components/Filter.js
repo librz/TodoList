@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
-import { FilterTypes } from './FilterTypes'
 import './Filter.css'
+
+export const FilterTypes = {
+  ALL: "all",
+  INCOMPLETED: "incompleted",
+  COMPLETED: "completed"
+};
 
 export class Filter extends Component {
     handleClick = (e) => {
