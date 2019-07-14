@@ -40,6 +40,7 @@ export class Editor extends Component {
             value={this.state.content}
             onChange={this.updateContent}
             onKeyUp={this.handleKeyUp}
+            autoFocus={true}
           />
           <button onClick={this.handleConfirm}>确定</button>
         </div>
