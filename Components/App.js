@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import AddTodo from "./AddTodo";
 import Todos from "./Todos";
 import { TodoActionTypes, TodoObj } from "./TodoItem";
-import Filter from "./Filter";
+import Filter, {FilterTypes} from "./Filter";
 import Editor from "./Editor";
-import FilterTypes from "./FilterTypes";
 import "./App.css";
 
 export class App extends Component {
