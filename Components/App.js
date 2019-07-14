@@ -31,9 +31,10 @@ export class App extends Component {
   };
 
   generateId = arr => {
-    let ret = 1;
-    while (arr.find(ele => ele.id === ret)) ret += 1;
-    return ret;
+    let id = 1;
+    const idExists = () => arr.find(ele => ele.id === id)
+    while (idExists()) id += 1;
+    return id;
   };
 
   handleAdd = text => {
