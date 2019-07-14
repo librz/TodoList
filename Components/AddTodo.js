@@ -9,7 +9,7 @@ export class AddTodo extends Component {
 
   //下一步：使用lodash.throttle来限制每秒能调用handleAdd的次数
   handleAdd = e => {
-    if (this.props.curInput === "") return;
+    if (this.state.curInput === "") return;
     if (e.keyCode && e.keyCode !== 13)
       //keyCode 13代表回车
       return;
