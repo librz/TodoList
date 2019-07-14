@@ -10,12 +10,12 @@ export class App extends Component {
   state = {
     todos: [],
     filterText: FilterTypes.All,
-    todoToEdit: null
+    edittingTodoId: null
   };
 
   getCurTodo = () => {
     const { todos, todoToEdit } = this.state;
-    return todos.find(ele => ele.id === todoToEdit);
+    return todos.find(ele => ele.id === edittingTodoId);
   };
 
   getFilteredTodos = () => {
@@ -57,7 +57,7 @@ export class App extends Component {
   updateTodoToEdit = newContent => {
     this.getCurTodo().content = newContent;
     this.setState({
-      todoToEdit: null
+      edittingTodoId: null
     });
   };
 
@@ -68,7 +68,7 @@ export class App extends Component {
         this.forceUpdate();
         break;
       case TodoActionTypes.EDIT:
-        this.setState({ todoToEdit: parseInt(id, 10) });
+        this.setState({ edittingTodoId: parseInt(id, 10) });
         break;
       case TodoActionTypes.DELETE:
         this.setState(curState => {
@@ -95,11 +95,11 @@ export class App extends Component {
           filterText={this.state.filterText}
           onChange={this.handleFilterChange}
         />
-        {this.state.todoToEdit ? (
+        {this.state.edittingTodoId ? (
           <Editor
             initialContent={this.getCurTodo().content}
             onUpdate={this.updateTodoToEdit}
-            onClose={this.setState.bind(this, {todoToEdit: null})}
+            onClose={this.setState.bind(this, {edittingTodoId: null})}
           />
         ) : (
           <div />
