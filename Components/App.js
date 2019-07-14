@@ -14,7 +14,7 @@ export class App extends Component {
   };
 
   getCurTodo = () => {
-    const { todos, todoToEdit } = this.state;
+    const { todos, edittingTodoId } = this.state;
     return todos.find(ele => ele.id === edittingTodoId);
   };
 
