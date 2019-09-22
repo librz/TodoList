@@ -1,4 +1,4 @@
-export const FilterTypes = {
+const FilterTypes = {
   ALL: "all",
   INCOMPLETED: "incompleted",
   COMPLETED: "completed"

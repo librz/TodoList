@@ -1,118 +1,98 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { v4 } from 'uuid';
 import AddTodo from "./AddTodo";
-import Todos from "./Todos";
-import { TodoActionTypes, TodoObj } from "./TodoItem";
+import TodoItem from "./TodoItem"
 import Filter from "./Filter";
-import Editor from "./Editor";
 import FilterTypes from "./FilterTypes";
-import "./App.css";
+import Editor from './Editor';
+import "../css/App.scss";
 
-export class App extends Component {
-  state = {
-    todos: [],
-    filterText: FilterTypes.All,
-    todoToEdit: null
-  };
+/*
+let todo = {
+  id: 1,
+  text: "Eat Dinner",
+  done: false
+}
+*/
 
-  getCurTodo = () => {
-    const { todos, todoToEdit } = this.state;
-    return todos.find(ele => ele.id === todoToEdit);
-  };
+const TodoMethods = React.createContext(null);
 
-  getFilteredTodos = () => {
-    const { todos, filterText } = this.state;
-    switch (filterText) {
-      case FilterTypes.INCOMPLETED:
-        return todos.filter(ele => !ele.isCompleted);
-      case FilterTypes.COMPLETED:
-        return todos.filter(ele => ele.isCompleted);
-      default:
-        return todos;
-    }
-  };
+function App() {
+  const [todos, setTodos] = useState([]);
+  const [filterType, setFilterType] = useState(FilterTypes.ALL);
+  const [edittingTodoId, setEdittingTodoId] = useState(null);
 
-  generateId = arr => {
-    let ret = 1;
-    while (arr.find(ele => ele.id === ret)) ret += 1;
-    return ret;
-  };
-
-  handleAdd = text => {
-    this.setState(curState => {
-      const curTodos = curState.todos;
-      const newEle = new TodoObj(this.generateId(curTodos), text, false);
-      return {
-        todos: [...curTodos, newEle],
-        filterText: FilterTypes.ALL
-      };
-    });
-  };
-
-  handleFilterChange = filterText => {
-    this.setState({
-      filterText: filterText
-    });
-  };
-
-  updateTodoToEdit = newContent => {
-    this.getCurTodo().content = newContent;
-    this.setState({
-      todoToEdit: null
-    });
-  };
-
-  handleTodoAction = (id, actionType) => {
-    switch (actionType) {
-      case TodoActionTypes.TOGGLE:
-        this.state.todos.find(ele => ele.id === id).toggleStatus();
-        this.forceUpdate();
-        break;
-      case TodoActionTypes.EDIT:
-        this.setState({ todoToEdit: parseInt(id, 10) });
-        break;
-      case TodoActionTypes.DELETE:
-        this.setState(curState => {
-          return {
-            todos: curState.todos.filter(ele => ele.id !== id)
-          };
-        });
-        break;
-      default:
-        window.alert(`Sth's wrong, go fix it`);
-        break;
-    }
-  };
-
-  clearTodoToEdit = () => {
-    this.setState({
-      todoToEdit: null
-    });
-  };
-
-  render() {
-    return (
-      <div className="App">
-        <AddTodo onAdd={this.handleAdd} />
-        <Todos
-          todos={this.getFilteredTodos()}
-          onAction={this.handleTodoAction}
-        />
-        <Filter
-          filterText={this.state.filterText}
-          onChange={this.handleFilterChange}
-        />
-        {this.state.todoToEdit ? (
-          <Editor
-            initialContent={this.getCurTodo().content}
-            onUpdate={this.updateTodoToEdit}
-            onClose={this.clearTodoToEdit}
-          />
-        ) : (
-          <div />
-        )}
-      </div>
-    );
+  function addTodo(text, done) {
+    setTodos(prev => prev.concat({ id: v4(), text, done }))
   }
+
+  function deleteTodo(id) {
+    setTodos(prev => prev.filter(todo => todo.id !== id))
+  }
+
+  function toggleTodo(id) {
+    setTodos(prev => {
+      let result = [];
+      prev.forEach(todo => {
+        if (todo.id !== id)
+          result.push(todo)
+        else 
+          result.push(Object.assign({}, todo, { done: !todo.done }))
+      })
+      return result;
+    })
+  }
+
+  function updateEdittingTodoText(newText) {
+    setTodos(prev => {
+      let result = [];
+      prev.forEach(todo => {
+        if (todo.id === edittingTodoId)
+          result.push(Object.assign({}, todo, { text: newText }))
+        else
+          result.push(todo)  
+      })
+      return result;
+    })
+  }
+
+  const getFilteredTodos = () => {
+    let result = null;
+    switch (filterType) {
+      case FilterTypes.COMPLETED:
+        result = todos.filter(todo => todo.done)
+        break;
+      case FilterTypes.INCOMPLETED:
+        result = todos.filter(todo => !todo.done)
+        break;
+      default:
+        result = todos;
+        break;
+    }
+    return result;
+  }
+
+  return (
+    <TodoMethods.Provider 
+      value={{addTodo, deleteTodo, toggleTodo, setFilterType, setEdittingTodoId, updateEdittingTodoText }}
+    >
+      <div className="App">
+        <AddTodo />
+        {
+          getFilteredTodos().map(todo => <TodoItem key={todo.id} {...todo} />)
+        }
+        <Filter currentType={filterType} />
+        {
+          edittingTodoId
+          ?
+          <Editor todo={todos.find(({id}) => id === edittingTodoId)} />
+          :
+          null
+        }
+      </div>
+    </TodoMethods.Provider>
+  );
 }
 
+export { TodoMethods };
 export default App;

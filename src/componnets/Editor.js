@@ -1,49 +1,39 @@
-import React, { Component } from "react";
-import "./Editor.css";
+import React, { useState, useContext } from "react";
+import { TodoMethods } from './App';
 
-export class Editor extends Component {
-  //Editor has 2 actions that needs to notify parent
-  //Close, Confirm
-  state = {
-    content: this.props.initialContent
+function Editor({ todo }) {
+  const [ text, setText ] = useState(todo.text);
+  const { setEdittingTodoId, updateEdittingTodoText } = useContext(TodoMethods);
+
+  function confirm() {
+    updateEdittingTodoText(text);
+    close();
   };
 
-  updateContent = e => {
-    this.setState({
-      content: e.target.value
-    });
-  };
-
-  handleConfirm = () => {
-    this.props.onUpdate(this.state.content);
-  };
-
-  handleKeyUp = e => {
+  function handleKeyUp(e) {
     if (e.keyCode !== 13) return;
-    else this.handleConfirm();
+    else confirm();
   };
 
-  handleClose = () => {
-    this.props.onClose();
+  function close() {
+    setEdittingTodoId(null)
   };
 
-  render() {
-    return (
-      <div className="ModalContainer">
-        <div className="Modal">
-          <p>
-            <span onClick={this.handleClose}>X</span>
-          </p>
-          <input
-            value={this.state.content}
-            onChange={this.updateContent}
-            onKeyUp={this.handleKeyUp}
-          />
-          <button onClick={this.handleConfirm}>确定</button>
-        </div>
+  return (
+    <div className="ModalContainer">
+      <div className="Modal">
+        <p>
+          <span onClick={close}>X</span>
+        </p>
+        <input
+          value={text}
+          onChange={e => { setText(e.target.value) }}
+          onKeyUp={handleKeyUp}
+        />
+        <button onClick={confirm}>确定</button>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Editor;

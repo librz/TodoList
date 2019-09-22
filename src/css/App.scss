@@ -1,0 +1,13 @@
+.App {
+  width: 90%;
+  margin: 20px auto;
+  padding: 10px 20px;
+  border: 1px solid silver;
+  border-radius: 5px;
+  box-shadow: 0 0 7px silver;
+}
+
+@import url('./AddTodo.scss');
+@import url('./TodoItem.scss');
+@import url('./Filter.scss');
+@import url('./Editor.scss');
