@@ -20,7 +20,7 @@ const TodoMethods = React.createContext(null);
 function App() {
   const [todos, setTodos] = useState([]);
   const [filterType, setFilterType] = useState(FilterTypes.ALL);
-  const [edittingTodoId, setEdittingTodoId] = useState(null);
+  const [edittingTodoId, setEdittingTodoId] = useState(null); //edittingTodoId表示正在被编辑的TodoItem的id
 
   function addTodo(text, done) {
     setTodos(prev => prev.concat({ id: v4(), text, done }))
@@ -37,7 +37,7 @@ function App() {
         if (todo.id !== id)
           result.push(todo)
         else 
-          result.push(Object.assign({}, todo, { done: !todo.done }))
+          result.push({ ...todo, done: !todo.done })
       })
       return result;
     })
@@ -48,7 +48,7 @@ function App() {
       let result = [];
       prev.forEach(todo => {
         if (todo.id === edittingTodoId)
-          result.push(Object.assign({}, todo, { text: newText }))
+          result.push({ ...todo, text: newText })
         else
           result.push(todo)  
       })
