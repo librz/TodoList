@@ -1,67 +1,42 @@
 .TodoItem {
-  margin: 10px auto;
+  width: 80%;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: black;
-  box-shadow: 0 0 5px silver;
-  border: 1px solid black;
-  border-radius: 5px;
-}
-
-.TodoItem:hover {
-  background-color: orange;
-  cursor: pointer;
-}
-
-.TodoItem div {
-  display: inline-block;
-  font-size: 18px;
-  font-family: Arial, Helvetica, sans-serif;
-  transition: font-size 0.3s linear;
-}
-
-.TodoItem div.Content {
-  line-height: 40px;
-  width: 80%;
-  margin: 0;
-  padding: 5px 20px;
-  color: silver;
-}
-
-.TodoItem div.Content:hover {
-  color: white;
-  font-size: 22px;
-}
-
-.TodoItem div.Delete {
-  float: right;
-  width: 30px;
-  text-align: center;
-  margin-right: 20px;
-  color: brown;
-  /* background-color: aqua; */
-}
-
-.TodoItem div.Delete:hover {
-  color: red;
-  font-size: 25px;
-}
-
-.TodoItem button {
-  font-size: 18px;
-  background-color: skyblue;
-  color: black;
-  width: 15%;
-  border: 1px solid black;
-  outline: none;
+  border: 1px solid silver;
   border-radius: 3px;
-  float: right;
-  margin: 5px 20px;
-}
-
-.TodoItem button:hover {
-  background-color: lightsalmon;
   cursor: pointer;
+  &:hover {
+    background-color: orange;
+  }
+  margin: 10px 0;
+  box-shadow: 0 0 5px silver;
+
+  .Content {
+    width: 80%;
+    line-height: 35px;
+    padding-left: 15px;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .Operation {
+    width: 20%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .Edit, .Delete {
+      display: inline-block;
+      width: 80px;
+      border: 1px solid silver;
+      border-radius: 3px;
+      text-align: center;
+      line-height: 27px;
+      background-color: lightblue;
+    }
+
+    .Delete {
+      margin-left: 20px;
+    }
+  }
 }

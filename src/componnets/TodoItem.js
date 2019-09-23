@@ -8,24 +8,29 @@ function TodoItem({ id, text, done }) {
       <div className="TodoItem">
         <div 
           className="Content" 
-          style={{ textDecorationLine: done ? "line-through" : "none" }} 
+          style={{ textDecorationLine: done ? "line-through" : "none", opacity: done ? .5 : 1 }} 
           onClick={() => { toggleTodo(id) }}
         >
           {text}
         </div>
 
-        <button 
-          onClick={() => { setEdittingTodoId(id) }}
-        >
-          编辑
-        </button>
-        
-        <div 
-          className="Delete" 
-          onClick={ () => { deleteTodo(id) } }
-        >
-          X
+        <div className="Operation">
+          <span 
+            className="Edit"
+            onClick={() => { setEdittingTodoId(id) }}
+          >
+            编辑
+          </span>
+          
+          <span 
+            className="Delete" 
+            onClick={ () => { deleteTodo(id) } }
+          >
+            删除
+          </span>
         </div>
+
+        
       </div>
     );
 }
