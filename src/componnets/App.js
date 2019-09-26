@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import { v4 } from 'uuid';
 import AddTodo from "./AddTodo";
 import TodoItem from "./TodoItem"
@@ -17,46 +17,70 @@ let todo = {
 
 const TodoMethods = React.createContext(null);
 
-function App() {
-  const [todos, setTodos] = useState([]);
-  const [filterType, setFilterType] = useState(FilterTypes.ALL);
-  const [edittingTodoId, setEdittingTodoId] = useState(null); //edittingTodoId表示正在被编辑的TodoItem的id
+class App extends Component {
 
-  function addTodo(text, done) {
-    setTodos(prev => prev.concat({ id: v4(), text, done }))
+  constructor(props) {
+    super(props)
+    this.state = {
+      todos: [],
+      filterType: FilterTypes.ALL,
+      edittingTodoId: null
+    }
   }
 
-  function deleteTodo(id) {
-    setTodos(prev => prev.filter(todo => todo.id !== id))
+  addTodo = (text, done) => {
+    this.setState(prev => {
+        return { todos: [...prev.todos, { id: v4(), text, done }] }
+    })
   }
 
-  function toggleTodo(id) {
-    setTodos(prev => {
+  deleteTodo = (id) => {
+    this.setState(prev => {
+      return { todos: prev.todos.filter(todo => todo.id !== id) }
+    })
+  }
+
+  toggleTodo = (id) => {
+    this.setState(({todos}) => {
       let result = [];
-      prev.forEach(todo => {
+      todos.forEach(todo => {
         if (todo.id !== id)
           result.push(todo)
         else 
           result.push({ ...todo, done: !todo.done })
       })
-      return result;
+      return { todos: result }
     })
   }
 
-  function updateEdittingTodoText(newText) {
-    setTodos(prev => {
+  setEdittingTodoId = (id) => {
+    this.setState({
+      edittingTodoId: id
+    })
+  }
+
+  setFilterType = (type) => {
+    this.setState({
+      filterType: type
+    })
+  }
+
+  updateEdittingTodoText = (newText) => {
+    const { edittingTodoId } = this.state;
+    this.setState(({todos}) => {
       let result = [];
-      prev.forEach(todo => {
+      todos.forEach(todo => {
         if (todo.id === edittingTodoId)
           result.push({ ...todo, text: newText })
         else
           result.push(todo)  
       })
-      return result;
+      return { todos: result }
     })
   }
 
-  const getFilteredTodos = () => {
+  getFilteredTodos = () => {
+    const { filterType, todos  } = this.state;
     let result = null;
     switch (filterType) {
       case FilterTypes.COMPLETED:
@@ -71,27 +95,37 @@ function App() {
     }
     return result;
   }
-
-  return (
-    <TodoMethods.Provider 
-      value={{addTodo, deleteTodo, toggleTodo, setFilterType, setEdittingTodoId, updateEdittingTodoText }}
-    >
-      <div className="App">
-        <AddTodo />
-        {
-          getFilteredTodos().map(todo => <TodoItem key={todo.id} {...todo} />)
-        }
-        <Filter currentType={filterType} />
-        {
-          edittingTodoId
-          ?
-          <Editor todo={todos.find(({id}) => id === edittingTodoId)} />
-          :
-          null
-        }
-      </div>
-    </TodoMethods.Provider>
-  );
+  
+  render() {
+    const { todos, filterType, edittingTodoId } = this.state;
+    return (
+      <TodoMethods.Provider 
+        value={{
+          addTodo: this.addTodo, 
+          deleteTodo: this.deleteTodo, 
+          toggleTodo: this.toggleTodo, 
+          setFilterType: this.setFilterType, 
+          setEdittingTodoId: this.setEdittingTodoId, 
+          updateEdittingTodoText: this.updateEdittingTodoText 
+        }}
+      >
+        <div className="App">
+          <AddTodo />
+          {
+            this.getFilteredTodos().map(todo => <TodoItem key={todo.id} {...todo} />)
+          }
+          <Filter currentType={filterType} />
+          {
+            edittingTodoId
+            ?
+            <Editor todo={todos.find(({id}) => id === edittingTodoId)} />
+            :
+            null
+          }
+        </div>
+      </TodoMethods.Provider>
+    );
+  }
 }
 
 export { TodoMethods };
