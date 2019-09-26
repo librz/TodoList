@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { Component } from 'react'
 import FilterTypes from './FilterTypes'
 import { TodoMethods } from './App'
 
@@ -8,38 +8,39 @@ const selectedStyle = {
     backgroundColor: "sandybrown"
 }
 
-function Filter({ currentType }) {
-    const { setFilterType } = useContext(TodoMethods);
+class Filter extends Component {
+    render() {
+        const { currentType } = this.props; 
+        return (
+            <TodoMethods.Consumer>
+            {
+                ({ setFilterType }) => (
+                    <div className="Filter">
+                        <button 
+                            style={currentType === FilterTypes.ALL ? selectedStyle : null}
+                            onClick={ () => { setFilterType(FilterTypes.ALL) } }
+                        >
+                            所有事项
+                        </button>
 
-    function handleClick(filterType) {
-        return () => {
-            setFilterType(filterType)
-        }
+                        <button 
+                            style={currentType === FilterTypes.INCOMPLETED ? selectedStyle : null}
+                            onClick={ () => { setFilterType(FilterTypes.INCOMPLETED) } }
+                        >
+                            未完成
+                        </button>
+
+                        <button 
+                            style={currentType === FilterTypes.COMPLETED ? selectedStyle : null}
+                            onClick={ () => { setFilterType(FilterTypes.COMPLETED) } }
+                        >
+                            已完成
+                        </button>
+                    </div>
+                )
+            }
+            </TodoMethods.Consumer>
+        )
     }
-
-    return (
-        <div className="Filter">
-            <button 
-                style={currentType === FilterTypes.ALL ? selectedStyle : null}
-                onClick={ handleClick(FilterTypes.ALL) }
-            >
-                所有事项
-            </button>
-
-            <button 
-                style={currentType === FilterTypes.INCOMPLETED ? selectedStyle : null}
-                onClick={ handleClick(FilterTypes.INCOMPLETED) }
-            >
-                未完成
-            </button>
-
-            <button 
-                style={currentType === FilterTypes.COMPLETED ? selectedStyle : null}
-                onClick={ handleClick(FilterTypes.COMPLETED) }
-            >
-                已完成
-            </button>
-        </div>
-    )
 }
 export default Filter;

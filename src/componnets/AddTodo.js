@@ -8,16 +8,6 @@ class AddTodo extends Component {
       curInput: ""
     }
   }
-  // const { addTodo } = useContext(TodoMethods);
-  
-  // const add = () => {
-  //   addTodo(curInput, false);
-  // }
-  // const handleKeyUp = ({ keyCode }) => {
-  //   if (keyCode !== 13)
-  //     return;
-  //   add();
-  // }
 
   render() {
     const { curInput } = this.state;
