@@ -1,29 +1,51 @@
-import React, { useState, useContext } from "react";
+import React, { Component } from "react";
 import { TodoMethods } from './App';
 
-function AddTodo() {
-  const [curInput, setCurInput] = useState("");
-  const { addTodo } = useContext(TodoMethods);
+class AddTodo extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      curInput: ""
+    }
+  }
+  // const { addTodo } = useContext(TodoMethods);
   
-  const add = () => {
-    addTodo(curInput, false);
-  }
-  const handleKeyUp = ({ keyCode }) => {
-    if (keyCode !== 13)
-      return;
-    add();
-  }
+  // const add = () => {
+  //   addTodo(curInput, false);
+  // }
+  // const handleKeyUp = ({ keyCode }) => {
+  //   if (keyCode !== 13)
+  //     return;
+  //   add();
+  // }
 
-  return (
-    <div className="AddTodo">
-      <input
-        value={curInput}
-        onChange={e =>{ setCurInput(e.target.value) }}
-        onKeyUp={handleKeyUp}
-      />
-      <button onClick={add}>添加</button>
-    </div>
-  );
+  render() {
+    const { curInput } = this.state;
+    return (
+      <TodoMethods.Consumer>
+        {
+          ({ addTodo }) => (
+            <div className="AddTodo">
+              <input
+                value={curInput}
+                onChange={e => { this.setState({ curInput: e.target.value }) }}
+                onKeyUp={({ keyCode }) => {
+                  if (keyCode !== 13)
+                    return
+                  addTodo(curInput, false)
+                }}
+              />
+              <button onClick={() => {
+                addTodo(curInput, false)
+              }}>
+                添加
+              </button>
+            </div>
+          )
+        }
+      </TodoMethods.Consumer>
+    );
+  }
 }
 
 export default AddTodo;
