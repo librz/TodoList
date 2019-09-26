@@ -1,39 +1,63 @@
-import React, { useState, useContext } from "react";
+import React, { Component } from "react";
 import { TodoMethods } from './App';
 
-function Editor({ todo }) {
-  const [ text, setText ] = useState(todo.text);
-  const { setEdittingTodoId, updateEdittingTodoText } = useContext(TodoMethods);
+class Editor extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      text: this.props.todo.text
+    }
+  }
 
-  function confirm() {
-    updateEdittingTodoText(text);
-    close();
+  confirm = () => {
+    console.log('inside confirm')
+    return <TodoMethods.Consumer>
+      {
+        ({ updateEdittingTodoText }) => {
+          updateEdittingTodoText(this.state.text)
+          this.close()
+        }
+      }
+    </TodoMethods.Consumer>
   };
 
-  function handleKeyUp(e) {
+  handleKeyUp = (e) => {
     if (e.keyCode !== 13) return;
-    else confirm();
+    else this.confirm();
   };
 
-  function close() {
-    setEdittingTodoId(null)
-  };
-
-  return (
-    <div className="ModalContainer">
-      <div className="Modal">
-        <p>
-          <span onClick={close}>X</span>
-        </p>
-        <input
-          value={text}
-          onChange={e => { setText(e.target.value) }}
-          onKeyUp={handleKeyUp}
-        />
-        <button onClick={confirm}>确定</button>
-      </div>
-    </div>
-  );
+  render() {
+    const { text } = this.state;
+    return (
+      <TodoMethods.Consumer>
+        {
+          ({ setEdittingTodoId, updateEdittingTodoText }) => (
+            <div className="ModalContainer">
+              <div className="Modal">
+                <p>
+                  <span onClick={() => { setEdittingTodoId(null) }}>X</span>
+                </p>
+                <input
+                  value={text}
+                  onChange={e => { this.setState({ text: e.target.value }) }}
+                  onKeyUp={(e) => {
+                    if (e.keyCode !== 13)
+                      return;
+                    updateEdittingTodoText(text)
+                    setEdittingTodoId(null)
+                  }}
+                />
+                <button onClick={() => {
+                  updateEdittingTodoText(text);
+                  setEdittingTodoId(null)
+                }}>确定</button>
+              </div>
+            </div>
+          )
+        }
+      </TodoMethods.Consumer>
+    );
+  }
 }
 
 export default Editor;
