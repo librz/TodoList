@@ -1,18 +1,17 @@
 import React, { Component } from "react";
-import { TodoMethods } from './App';
 
 class TodoItem extends Component {    
     render() {
-      const { id, text, done } = this.props;
+      const { id, text, done, onDelete, onToggle, onEdit } = this.props;
       return (
-        <TodoMethods.Consumer>
-        {
-          ({ toggleTodo, deleteTodo, setEdittingTodoId }) => (
             <div className="TodoItem">
               <div 
                 className="Content" 
-                style={{ textDecorationLine: done ? "line-through" : "none", opacity: done ? .5 : 1 }} 
-                onClick={() => { toggleTodo(id) }}
+                style={{ 
+                  textDecorationLine: done ? "line-through" : "none", 
+                  opacity: done ? .5 : 1 
+                }} 
+                onClick={() => { onToggle(id) }}
               >
                 {text}
               </div>
@@ -20,14 +19,14 @@ class TodoItem extends Component {
               <div className="Operation">
                 <span 
                   className="Edit"
-                  onClick={() => { setEdittingTodoId(id) }}
+                  onClick={() => { console.log('inside todo item, onEdit'); onEdit(id) }}
                 >
                   编辑
                 </span>
                 
                 <span 
                   className="Delete" 
-                  onClick={ () => { deleteTodo(id) } }
+                  onClick={ () => { onDelete(id) } }
                 >
                   删除
                 </span>
@@ -35,9 +34,6 @@ class TodoItem extends Component {
             </div>
           )
         }
-        </TodoMethods.Consumer>
-      );
-    }
 }
 
 export default TodoItem;

@@ -8,24 +8,18 @@ import Editor from './Editor';
 import "../css/App.scss";
 
 /*
-let todo = {
+let todoExample = {
   id: 1,
   text: "Eat Dinner",
   done: false
 }
 */
 
-const TodoMethods = React.createContext(null);
-
 class App extends Component {
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      todos: [],
-      filterType: FilterTypes.ALL,
-      edittingTodoId: null
-    }
+  state = {
+    todos: [],
+    filterType: FilterTypes.ALL,
+    edittingTodoId: null,
   }
 
   addTodo = (text, done) => {
@@ -50,12 +44,6 @@ class App extends Component {
           result.push({ ...todo, done: !todo.done })
       })
       return { todos: result }
-    })
-  }
-
-  setEdittingTodoId = (id) => {
-    this.setState({
-      edittingTodoId: id
     })
   }
 
@@ -95,37 +83,50 @@ class App extends Component {
     }
     return result;
   }
+
+  handleEditConfirm = (newText) => {
+    this.updateEdittingTodoText(newText);
+    this.setState({ edittingTodoId: null });
+  }
+
+  handleEditCancel = () => {
+    this.setState({ edittingTodoId: null })
+  }
   
   render() {
     const { todos, filterType, edittingTodoId } = this.state;
     return (
-      <TodoMethods.Provider 
-        value={{
-          addTodo: this.addTodo, 
-          deleteTodo: this.deleteTodo, 
-          toggleTodo: this.toggleTodo, 
-          setFilterType: this.setFilterType, 
-          setEdittingTodoId: this.setEdittingTodoId, 
-          updateEdittingTodoText: this.updateEdittingTodoText 
-        }}
-      >
         <div className="App">
-          <AddTodo />
+          <AddTodo onAdd={this.addTodo} />
           {
-            this.getFilteredTodos().map(todo => <TodoItem key={todo.id} {...todo} />)
+            this.getFilteredTodos().map(todo => 
+              <TodoItem 
+                key={todo.id} 
+                {...todo} 
+                onDelete={this.deleteTodo} 
+                onToggle={this.toggleTodo}
+                onEdit={(id) => { this.setState({ edittingTodoId: id }) } }
+              />
+            )
           }
-          <Filter currentType={filterType} />
+          <Filter 
+            currentType={filterType} 
+            onChange={this.setFilterType}
+          />
+
           {
             edittingTodoId
             ?
-            <Editor todo={todos.find(({id}) => id === edittingTodoId)} />
+            <Editor 
+              initialText={ todos.find(({id}) => id === edittingTodoId).text }
+              onConfirm={this.handleEditConfirm}
+              onCancel={this.handleEditCancel}
+            />
             :
-            null
+            "no editting todo id"
           }
         </div>
-      </TodoMethods.Provider>
     );
   }
 }
-export { TodoMethods };
 export default App;

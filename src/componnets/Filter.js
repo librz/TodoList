@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import FilterTypes from './FilterTypes'
-import { TodoMethods } from './App'
 
 const selectedStyle = {
     textDecoration: "underline",
@@ -10,36 +9,30 @@ const selectedStyle = {
 
 class Filter extends Component {
     render() {
-        const { currentType } = this.props; 
+        const { currentType, onChange } = this.props; 
         return (
-            <TodoMethods.Consumer>
-            {
-                ({ setFilterType }) => (
-                    <div className="Filter">
-                        <button 
-                            style={currentType === FilterTypes.ALL ? selectedStyle : null}
-                            onClick={ () => { setFilterType(FilterTypes.ALL) } }
-                        >
-                            所有事项
-                        </button>
+            <div className="Filter">
+                <button 
+                    style={currentType === FilterTypes.ALL ? selectedStyle : null}
+                    onClick={ () => { onChange(FilterTypes.ALL) } }
+                >
+                    所有事项
+                </button>
 
-                        <button 
-                            style={currentType === FilterTypes.INCOMPLETED ? selectedStyle : null}
-                            onClick={ () => { setFilterType(FilterTypes.INCOMPLETED) } }
-                        >
-                            未完成
-                        </button>
+                <button 
+                    style={currentType === FilterTypes.INCOMPLETED ? selectedStyle : null}
+                    onClick={ () => { onChange(FilterTypes.INCOMPLETED) } }
+                >
+                    未完成
+                </button>
 
-                        <button 
-                            style={currentType === FilterTypes.COMPLETED ? selectedStyle : null}
-                            onClick={ () => { setFilterType(FilterTypes.COMPLETED) } }
-                        >
-                            已完成
-                        </button>
-                    </div>
-                )
-            }
-            </TodoMethods.Consumer>
+                <button 
+                    style={currentType === FilterTypes.COMPLETED ? selectedStyle : null}
+                    onClick={ () => { onChange(FilterTypes.COMPLETED) } }
+                >
+                    已完成
+                </button>
+            </div>
         )
     }
 }
