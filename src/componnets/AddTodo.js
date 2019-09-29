@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import { TodoMethods } from './App';
 
 class AddTodo extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      curInput: ""
-    }
+  state = { curInput: "" }
+
+  handleInputChange = ({ target: {value} }) => {
+    this.setState({ curInput: value })
   }
 
   render() {
@@ -18,23 +17,28 @@ class AddTodo extends Component {
             <div className="AddTodo">
               <input
                 value={curInput}
-                onChange={e => { this.setState({ curInput: e.target.value }) }}
-                onKeyUp={({ keyCode }) => {
-                  if (keyCode !== 13)
-                    return
-                  addTodo(curInput, false)
-                }}
+                onChange={this.handleInputChange}
+                onKeyUp={
+                  ({keyCode}) => {
+                    if (keyCode !== 13) return;
+                    addTodo(curInput, false)
+                    this.setState({ curInput: "" })
+                  }
+                }
               />
-              <button onClick={() => {
-                addTodo(curInput, false)
-              }}>
+              <button onClick={
+                () => {
+                  addTodo(curInput, false);
+                  this.setState({curInput: ""})
+                }
+              }>
                 添加
               </button>
             </div>
           )
         }
       </TodoMethods.Consumer>
-    );
+    )
   }
 }
 

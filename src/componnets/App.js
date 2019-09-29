@@ -127,6 +127,5 @@ class App extends Component {
     );
   }
 }
-
 export { TodoMethods };
 export default App;
